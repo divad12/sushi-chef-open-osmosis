@@ -12,6 +12,7 @@ import os
 import pycountry
 import re
 import requests
+import signal
 import tempfile
 import time
 from urllib.parse import urlparse, parse_qs
@@ -178,6 +179,9 @@ def fetch_assessment_topics(parent_node, topics_map):
 
             fetch_assessment_topic_items(driver, topic_node, url,
                     topic_short_title=text, thumbnail=img)
+
+    driver.service.process.send_signal(signal.SIGTERM)
+    driver.quit()
 
 
 def _title_exercise(topic_title, first_item, last_item):
